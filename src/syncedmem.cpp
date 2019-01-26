@@ -296,7 +296,10 @@ void MemoryPool::Clear() {
   for (auto it = cpu_pool_.begin(); it != cpu_pool_.end(); ++it) {
     MemBlock& block = it->second;
 #ifdef USE_CUDA
-    CUDA_CHECK(cudaFreeHost(block.ptr));
+    cudaError_t err = cudaFree(0);
+    if (err != cudaErrorCudartUnloading) {
+      CUDA_CHECK(cudaFreeHost(block.ptr));
+    }
 #else
     free(block.ptr);
 #endif
