@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 ./generatepb.sh
 mkdir build_gpu
 cd build_gpu
